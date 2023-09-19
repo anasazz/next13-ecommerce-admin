@@ -30,6 +30,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 const formSchema = z.object({
   name: z.string().min(1),
+  short_description: z.string().min(10),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
@@ -74,6 +75,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     name: '',
     images: [],
     price: 0,
+    short_description: '',
     categoryId: '',
     colorId: '',
     sizeId: '',
@@ -90,6 +92,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     try {
       setLoading(true);
       if (initialData) {
+        console.log("patching data", data);
+        
         await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data);
       } else {
         await axios.post(`/api/${params.storeId}/products`, data);
@@ -148,6 +152,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             name="images"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Images</FormLabel>
                 <FormLabel>Images</FormLabel>
                 <FormControl>
                   <ImageUpload 
@@ -277,6 +282,22 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
+
+<FormField
+              control={form.control}
+              name="short_description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Short Description</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="Product short description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+
             <FormField
               control={form.control}
               name="isArchived"

@@ -59,6 +59,7 @@ model Product {
   categoryId  String    // Foreign Key to Category
   category    Category  @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name        String
+  short_description  String  @default("")
   price       Decimal
   isFeatured  Boolean   @default(false)
   isArchived  Boolean   @default(false)
@@ -85,6 +86,9 @@ model Order {
   isPaid     Boolean   @default(false)
   phone      String    @default("")
   address    String    @default("")
+  fullname    String    @default("")
+  email    String    @default("")
+  city String  @default("")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 

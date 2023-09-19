@@ -12,6 +12,7 @@ export type ProductColumn = {
   size: string;
   color: string;
   createdAt: string;
+  short_description : string;
   isFeatured: boolean;
   isArchived: boolean;
 }

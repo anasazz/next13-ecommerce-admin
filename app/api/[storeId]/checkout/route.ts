@@ -18,7 +18,10 @@ export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
-  const { productIds } = await req.json();
+  const { productIds , userInfo } = await req.json();
+
+  console.log("userInfo+++++++++++", userInfo);
+  
 
   if (!productIds || productIds.length === 0) {
     return new NextResponse("Product ids are required", { status: 400 });
@@ -38,7 +41,7 @@ export async function POST(
     line_items.push({
       quantity: 1,
       price_data: {
-        currency: 'USD',
+        currency: 'MAD',
         product_data: {
           name: product.name,
         },
@@ -47,9 +50,28 @@ export async function POST(
     });
   });
 
+
+  // id        String    @id @default(uuid())
+  // storeId     String    // Foreign Key to Store
+  // store       Store     @relation("StoreToOrder", fields: [storeId], references: [id])
+  // orderItems OrderItem[] // Relation to OrderItem model
+  // isPaid     Boolean   @default(false)
+  // phone      String    @default("")
+  // address    String    @default("")
+  // fullname    String    @default("")
+  // email    String    @default("")
+  // city DateTime  @default(now())
+  // updatedAt DateTime  @updatedAt
+
+
   const order = await prismadb.order.create({
     data: {
       storeId: params.storeId,
+      phone: userInfo.num,
+      address: userInfo.address,
+      email: userInfo.email,
+      city: userInfo.city,
+   
       isPaid: false,
       orderItems: {
         create: productIds.map((productId: string) => ({
@@ -63,21 +85,21 @@ export async function POST(
     }
   });
 
-  const session = await stripe.checkout.sessions.create({
-    line_items,
-    mode: 'payment',
-    billing_address_collection: 'required',
-    phone_number_collection: {
-      enabled: true,
-    },
-    success_url: `${process.env.FRONTEND_STORE_URL}/cart?success=1`,
-    cancel_url: `${process.env.FRONTEND_STORE_URL}/cart?canceled=1`,
-    metadata: {
-      orderId: order.id
-    },
-  });
+  // const session = await stripe.checkout.sessions.create({
+  //   line_items,
+  //   mode: 'payment',
+  //   billing_address_collection: 'required',
+  //   phone_number_collection: {
+  //     enabled: true,
+  //   },
+  //   success_url: `${process.env.FRONTEND_STORE_URL}/cart?success=1`,
+  //   cancel_url: `${process.env.FRONTEND_STORE_URL}/cart?canceled=1`,
+  //   metadata: {
+  //     orderId: order.id
+  //   },
+  // });
 
-  return NextResponse.json({ url: session.url }, {
+  return NextResponse.json({ url: "success" }, {
     headers: corsHeaders
   });
 };
