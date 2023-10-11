@@ -35,8 +35,8 @@ const formSchema = z.object({
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
-  colorId: z.string().min(0),
-  sizeId: z.string().min(0),
+  colorId: z.string(),
+  sizeId: z.string(),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional()
 });
@@ -72,6 +72,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const defaultValues = initialData ? {
     ...initialData,
     price: parseFloat(String(initialData?.price)),
+    colorId: '',
+    sizeId: '',
   } : {
     name: '',
     images: [],
@@ -126,7 +128,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   }
 
   return (
-    <>
+    <div>
     <AlertModal 
       isOpen={open} 
       onClose={() => setOpen(false)}
@@ -154,7 +156,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             name="images"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Images</FormLabel>
                 <FormLabel>Images</FormLabel>
                 <FormControl>
                   <ImageUpload 
@@ -330,15 +331,14 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         </form>
       </Form>
 
-      {/* <p>{JSON.stringify(initialData)}</p> */}
 
-      {initialData && (
+      {params.productId && (
 
-      <FeedbackForm productId={params.productId} />
+      <FeedbackForm initialData={initialData} productId={params.productId} />
 
       )}
 
 
-    </>
+    </div>
   );
 };

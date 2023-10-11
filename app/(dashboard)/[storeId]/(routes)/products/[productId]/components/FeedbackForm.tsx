@@ -33,12 +33,17 @@ interface FeedbackFormProps {
   productId: string;
   initialData: Product | null;
 }
+interface Feedback {
+  id: string;
+  rating: number;
+  comment: string;
+}
 
 export const FeedbackForm: React.FC<FeedbackFormProps> = ({ productId, initialData }) => {
   const params = useParams();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [feedbacks, setFeedbacks] = useState([]); // State to store feedbacks
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
 
   const title = initialData ? "Edit feedback" : "Create feedback";
   const description = initialData ? "Edit a feedback." : "Add a new feedback";
