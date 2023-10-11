@@ -118,6 +118,7 @@ export async function POST(req: Request ) {
             id: feedbackId,
           },
         })
+        
     
         return new NextResponse("Feedback deleted", { status: 204 })
     } catch (error) {
