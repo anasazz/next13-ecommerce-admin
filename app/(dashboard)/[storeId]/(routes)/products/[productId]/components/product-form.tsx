@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast"
 import { Trash } from "lucide-react"
 import { Category, Color, Image, Product, Size } from "@prisma/client"
 import { useParams, useRouter } from "next/navigation"
+import {FeedbackForm} from "./FeedbackForm"; // Adjust the import path
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -34,8 +35,8 @@ const formSchema = z.object({
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
-  colorId: z.string().min(1),
-  sizeId: z.string().min(1),
+  colorId: z.string().min(0),
+  sizeId: z.string().min(0),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional()
 });
@@ -74,6 +75,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   } : {
     name: '',
     images: [],
+    feedback: [],
     price: 0,
     short_description: '',
     categoryId: '',
@@ -327,6 +329,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           </Button>
         </form>
       </Form>
+
+      {/* <p>{JSON.stringify(initialData)}</p> */}
+
+      {initialData && (
+
+      <FeedbackForm productId={params.productId} />
+
+      )}
+
+
     </>
   );
 };
