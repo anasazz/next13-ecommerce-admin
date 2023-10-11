@@ -47,7 +47,7 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({ productId, initialDa
 
   const form = useForm<FeedbackFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
+    defaultValues: {
       rating: 5,
       comment: "",
     },
