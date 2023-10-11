@@ -62,7 +62,7 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({ productId, initialDa
     }
   };
 
-  const onDelete = async (feedbackId) => {
+  const onDelete = async (feedbackId:any) => {
     try {
       setLoading(true);
       
