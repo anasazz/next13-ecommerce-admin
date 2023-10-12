@@ -21,7 +21,7 @@ export async function DELETE(
     }
 
 
-    const feedback = await prismadb.feedback.delete({
+    const feedback = await prismadb.Feedback.delete({
       where: {
         id: params.feedbackId,
       }

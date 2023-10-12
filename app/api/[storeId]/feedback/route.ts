@@ -37,7 +37,7 @@ export async function POST(req: Request ) {
         ...(orderId && { orderId }),
       };
   
-      const feedback = await prismadb.feedback.create({
+      const feedback = await prismadb.Feedback.create({
         data: feedbackData,
       });
   
@@ -67,7 +67,7 @@ export async function POST(req: Request ) {
         return new NextResponse("Product id is required", { status: 400 });
       }
   
-      const feedbacks = await prismadb.feedback.findMany({
+      const feedbacks = await prismadb.Feedback.findMany({
         where: {
           productId: productId,
         },
