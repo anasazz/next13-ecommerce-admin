@@ -21,11 +21,11 @@ export async function DELETE(
     }
 
 
-    // const feedback = await prismadb.feedback.delete({
-    //   where: {
-    //     id: params.feedbackId,
-    //   }
-    // });
+    const feedback = await prismadb.feedback.delete({
+      where: {
+        id: params.feedbackId,
+      }
+    });
   
     return new NextResponse("Deleted", { status: 201 });
 

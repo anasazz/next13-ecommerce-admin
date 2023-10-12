@@ -81,50 +81,5 @@ export async function POST(req: Request ) {
   }
   
   
-  export async function DELETE(
-    req: Request,
-    { params }: { params: { feedbackId: string, storeId: string } }
-  ) {
-
-      const { searchParams } = new URL(req.url)
-      const feedbackId = searchParams.get('feedbackId') || undefined;
-  
-      const { userId } = auth();
-  
-      if (!userId) {
-        return new NextResponse("Unauthenticated", { status: 403 });
-      }
-  
-      if (!feedbackId) {
-        return new NextResponse("feedback id is required", { status: 400 });
-      }
-
-      try {
-        // Try to find the feedback entry
-        const feedback = await prismadb.feedback.findUnique({
-          where: {
-            id: feedbackId,
-          },
-        });
-    
-        // Check if the feedback exists
-        if (!feedback) {
-          return new NextResponse("Feedback not found", { status: 400 });
-        }
-    
-        // Delete the feedback entry
-        await prismadb.feedback.delete({
-          where: {
-            id: feedbackId,
-          },
-        })
-        
-    
-        return new NextResponse("Feedback deleted", { status: 204 })
-    } catch (error) {
-      console.log('[FEEDBACK_DELETE]', error);
-      return new NextResponse("Internal error", { status: 500 });
-    }
-  };
   
   
