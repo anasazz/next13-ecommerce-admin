@@ -75,6 +75,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const defaultValues = initialData ? {
     ...initialData,
     price: parseFloat(String(initialData?.price)),
+    old_price: parseFloat(String(initialData?.old_price)),
     colorId: '',
     sizeId: '',
   } : {
