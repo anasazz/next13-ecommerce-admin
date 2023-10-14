@@ -12,7 +12,7 @@ import { useParams, useRouter } from "next/navigation"
 import {FeedbackForm} from "./FeedbackForm"; // Adjust the import path
 
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/text-area.tsx"
+import { Textarea } from "@/components/ui/text-area"
 import { Button } from "@/components/ui/button"
 import {
   Form,
