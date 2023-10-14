@@ -12,6 +12,7 @@ import { useParams, useRouter } from "next/navigation"
 import {FeedbackForm} from "./FeedbackForm"; // Adjust the import path
 
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/text-area.tsx"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -32,8 +33,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 const formSchema = z.object({
   name: z.string().min(1),
   short_description: z.string().min(10),
+  description: z.string().min(10),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
+  old_price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
   colorId: z.string(),
   sizeId: z.string(),
@@ -79,7 +82,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     images: [],
     feedback: [],
     price: 0,
+    old_price: 0,
     short_description: '',
+    description: '',
     categoryId: '',
     colorId: '',
     sizeId: '',
@@ -198,6 +203,19 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
             <FormField
               control={form.control}
+              name="old_price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Old Price</FormLabel>
+                  <FormControl>
+                    <Input type="number" disabled={loading} placeholder="9.99" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
@@ -301,6 +319,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
 
 
+
             <FormField
               control={form.control}
               name="isArchived"
@@ -325,14 +344,33 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               )}
             />
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
+
+
+          <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel> Description</FormLabel>
+                  <FormControl>
+                    <Textarea disabled={loading} placeholder="Product  description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />   
+
+
+
+
+          <Button disabled={loading} className="ml-auto my-5" type="submit">
             {action}
           </Button>
         </form>
       </Form>
 
 
-      {params.productId && (
+      {initialData && (
 
       <FeedbackForm initialData={initialData} productId={params.productId} />
 

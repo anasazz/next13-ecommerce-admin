@@ -58,7 +58,9 @@ model Product {
   category          Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name              String
   short_description String      @default("")
+  description       String      @default("")
   price             Decimal
+  old_price         Decimal     @default(0)
   isFeatured        Boolean     @default(false)
   isArchived        Boolean     @default(false)
   sizeId            String? // Foreign Key to Size
